@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>One-Click Edit</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Thank you for your patience! We are working diligently to process your
+        video.
+      </h1>
+      <img
+        src="{{ url_for('static', filename='logo_f.png') }}"
+        alt="one-click edit logo"
+      />
+      <a href="/wait" class="back">Go Back To Wait</a>
+    </div>
+    <div class="feedback-container">
+      <h5>Give us some feedback!</h5>
+      <form id="feedback-form" action="/submit_feedback" method="post">
+        <textarea
+          id="feedback"
+          name="feedback"
+          rows="10"
+          placeholder="Please include your email address"
+          required
+        ></textarea>
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+    <style>
+      body {
+        font-family: monospace;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      h1 {
+        font-family: monospace;
+      }
+
+      img {
+        position: absolute;
+        top: 3%;
+        left: 30%;
+        top: 30%;
+        width: 10%;
+      }
+      .feedback-container {
+        max-width: 300px;
+        margin: 0;
+        padding: 20px;
+        padding-bottom: 100px;
+        background-color: #548896bc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        margin-left: 70%;
+        position: absolute;
+        top: 20%;
+        right: 20px;
+      }
+
+      h5 {
+        font-size: 20px;
+      }
+
+      textarea {
+        width: 80%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      button {
+        background-color: #000000;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        background-color: #62bdd8;
+      }
+      .back {
+        position: absolute;
+        text-decoration: none;
+        background-color: #3df1f4;
+        color: #100f0f;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        left: 30%;
+        top: 50%;
+        padding: 2%;
+        font-size: larger;
+        box-shadow: 7px 7px 10px rgb(56, 75, 70);
+      }
+    </style>
+  </body>
+</html>

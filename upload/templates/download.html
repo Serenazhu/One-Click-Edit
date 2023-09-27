@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Download Page</title>
+  </head>
+  <body>
+    <h1>Download FINAL.mp4</h1>
+    <p>Click the button below to download the FINAL.mp4 file:</p>
+
+    <a
+      href="{{ url_for('download_file', file_path=file_path) }}"
+      download="FINAL.mp4"
+    >
+      <button>Download FINAL.mp4</button>
+    </a>
+  </body>
+</html>

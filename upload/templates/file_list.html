@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="container">
+      <img
+        src="{{ url_for('static', filename='logo_f.png') }}"
+        alt="one-click edit logo"
+      />
+      <h1 class="title">Files that will be edited</h1>
+      <ul class="list">
+        {% for file_name in file_names %}
+        <li>{{ file_name }}</li>
+        {% endfor %}
+      </ul>
+      <a href="/download_files" class="start">START editing</a>
+    </div>
+
+    <style>
+      * {
+        font-family: monospace;
+      }
+      .container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .start {
+        border-radius: 6%;
+        background-color: rgb(158, 221, 239);
+        border: none;
+        padding: 2%;
+        font-size: 130%;
+        text-decoration: none;
+        color: black;
+      }
+      .start:hover {
+        cursor: pointer;
+        background-color: rgb(62, 207, 236);
+      }
+      .list {
+        font-size: large;
+      }
+      img {
+        width: auto;
+        height: 15%;
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>One-Click Edit</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <img
+      src="{{ url_for('static', filename='logo_f.png') }}"
+      alt="one-click edit logo"
+    />
+
+    <h1 class="container">One-Click Edit</h1>
+    {% if session['dropbox_token'] %}
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <div class="upload-container">
+        <h5 class="requirments">
+          Currently, we work best with videos containing spoken audio.
+        </h5>
+        <input type="file" name="file" accept=".mp4" multiple required />
+        <button class="upload-button" type="submit">
+          Upload File to Dropbox
+        </button>
+      </div>
+    </form>
+    <form action="/list_files">
+      <button class="list-files" type="submit">Check uploaded Files</button>
+    </form>
+
+    <a href="/logout" class="logout-button">Logout</a>
+    <div class="feedback-container">
+      <h5>Give us some feedback!</h5>
+      <form id="feedback-form" action="/submit_feedback" method="post">
+        <textarea
+          id="feedback"
+          name="feedback"
+          rows="10"
+          placeholder="Please include your email address"
+          required
+        ></textarea>
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+
+    {% else %}
+    <a href="/login" class="login-button">SignUp with Dropbox</a>
+    <h2 class="main">Transform your video with a <span>single</span> click</h2>
+    <h2 class="submain">--- AI-powered video editing made effortless ---</h2>
+    <a href="/login" class="magic">Start the Magic</a>
+    {% endif %}
+    <div class="reference-container">
+      <h5 class="reference">Want to know more about our product?</h5>
+      <a
+        class="reference link"
+        href="https://docs.google.com/document/d/1dKh-8RB_D4pmkT9Y3AZHSA_fWnPLUs9IY8W3c-aFY4w/edit?usp=sharing"
+        >Click here</a
+      >
+    </div>
+  </body>
+</html>
