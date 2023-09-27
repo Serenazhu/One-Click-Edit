@@ -5,6 +5,18 @@ from google.cloud import storage
 # Initialize the Speech client
 client = speech.SpeechClient()
 
+# Load the stereo audio
+stereo_audio = AudioSegment.from_wav(r"C:\Users\seren\OneDrive\Documents\Business\final\full_output_audio.wav")
+
+# Convert the stereo audio to mono
+mono_audio = stereo_audio.set_channels(1)
+
+# Save the mono audio to a new WAV file
+mono_audio_file_path = r"C:\Users\seren\OneDrive\Documents\Business\picture\time_stamp\mono.wav"
+mono_audio.export(mono_audio_file_path, format="wav")
+# Initialize the Speech client
+client = speech.SpeechClient()
+
 storage_client = storage.Client()
 bucket_name = "audio1977"
 

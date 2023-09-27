@@ -6,12 +6,16 @@ root_directory = r'c:\Users\seren\OneDrive\Documents\Business'
 
 # Function to delete files with specific extensions recursively
 def delete_files_with_extensions(directory, extensions):
-    for root, _, files in os.walk(directory):
+    for root, dirs, files in os.walk(directory):
+        # Skip directories named '.git' and their subdirectories
+        if '.git' in dirs:
+            dirs.remove('.git')
+            continue
         for file in files:
             if any(file.lower().endswith(extension) for extension in extensions):
                 file_path = os.path.join(root, file)
                 # Check if the file is named 'logo_f.png' and skip it
-                if file.lower() == 'logo_f.png':
+                if file.lower() == 'logo_f.png' or file.lower() == '.gitignore.txt':
                     continue
                 os.remove(file_path)
                 print(f"Deleted: {file_path}")
