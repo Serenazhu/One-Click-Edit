@@ -94,7 +94,7 @@ def split_video(input_file, output_dir, max_duration=181):
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'dropbox_token' not in session:
-        return 'User not authenticated'
+        return redirect('/login')
     dbx = get_dropbox_client()
     #deleting existing files in db
     db_folder_path = '/uploads/'
@@ -162,7 +162,7 @@ def get_dropbox_oauth_token():
 @app.route('/list_files')
 def list_files():
     if 'dropbox_token' not in session:
-        return 'User not authenticated'
+        return redirect('/login')
     dbx = get_dropbox_client()
 
     try:
@@ -198,7 +198,7 @@ def submit_feedback():
 @app.route('/download_files')
 def download_files():
     if 'dropbox_token' not in session:
-        return 'User not authenticated'
+        return redirect('/login')
 
     dbx = get_dropbox_client()
     db_folder_path = '/uploads/' 
@@ -232,7 +232,7 @@ def display_wait_template():
     return render_template('wait.html')
 
 
-
+import time
 @app.route('/download_final')
 def download_final():
     #deleting existing files in db
@@ -264,6 +264,8 @@ def download_final():
         download_name=os.path.basename(name),
         mimetype='application/octet-stream'
     )
+
+    time.sleep(60)
     clear = r"C:\Users\seren\OneDrive\Documents\Business\upload\clear_history.py"
     subprocess.run(["python", clear])
 

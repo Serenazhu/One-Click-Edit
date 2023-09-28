@@ -66,6 +66,10 @@ while True:
 
         if overlay_start_time <= current_time <= overlay_end_time:
             overlay_image = cv2.imread(overlay_info[current_overlay]['image_path'])
+            if overlay_image is None:
+                print(f"Error loading image: {overlay_info[current_overlay]['image_path']}")
+                continue  # Skip this overlay and move to the next frame
+
 
             # Resize the overlay image to a smaller size while maintaining aspect ratio
             scale_percent = 30  # Adjust this percentage as needed
@@ -106,4 +110,6 @@ video_with_audio.write_videofile(output_video_with_audio_path, codec='libx264', 
 # Close the video file objects
 video_without_audio.close()
 video_with_audio.close()
+
+
 
