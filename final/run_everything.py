@@ -10,13 +10,16 @@ scripts_to_run = [r"C:\Users\seren\OneDrive\Documents\Business\Re-sequence\re-se
                   r"C:\Users\seren\OneDrive\Documents\Business\edit\trim_pauses.py", 
                   r"C:\Users\seren\OneDrive\Documents\Business\picture\full_audio.py", 
                   r"C:\Users\seren\OneDrive\Documents\Business\picture\full_transcript.py", 
+                  r'C:\Users\seren\OneDrive\Documents\Business\Key words\gpt_key_words.py',
+                  r'C:\Users\seren\OneDrive\Documents\Business\Key words\gpt2_kw.py',
                   r"C:\Users\seren\OneDrive\Documents\Business\picture\gpt_img.py", 
                   r"C:\Users\seren\OneDrive\Documents\Business\picture\gpt2.py", 
                   r"C:\Users\seren\OneDrive\Documents\Business\picture\time_stamp\gc.py", 
                   r"C:\Users\seren\OneDrive\Documents\Business\picture\w.py", 
                   r"C:\Users\seren\OneDrive\Documents\Business\picture\API_img.py", 
                   r"C:\Users\seren\OneDrive\Documents\Business\picture\img_overlay.py", 
-                  r"C:\Users\seren\OneDrive\Documents\Business\picture\last_trim.py" ]
+                  r"C:\Users\seren\OneDrive\Documents\Business\Key words\key_words2.py",
+                  r"C:\Users\seren\OneDrive\Documents\Business\picture\last_trim2.py" ]
 
 for script in scripts_to_run:
     subprocess.call(["python", script])

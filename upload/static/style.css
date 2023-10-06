@@ -1,11 +1,23 @@
 body{
     margin:0;
     padding: 0;
-    background: linear-gradient(90deg,rgb(129, 169, 182), rgb(171, 230, 222));
+    background: linear-gradient(-45deg, rgb(114, 175, 221),yellow,#ee7752, #f287b0, #23a6d5, #7beed3);
+    background-size: 1100% 1100%;
+    animation: gradient-animation 15s ease infinite;
+
+    
     font-family: monospace;
     overflow: hidden;
 }
-
+@keyframes gradient-animation {
+    0%, 100% {
+      background-position: 0% 50%; /*Horizontal , Vertical*/
+    }
+    70%{
+      background-position: 100% 50%;
+    }
+  }
+  
 .container{
     width: 50%;
     color: black;
@@ -15,12 +27,17 @@ body{
     padding-right: 5%;
 
 }
-img{
-    width: 10%;
+.logo{
+    width: 8%;
     height: 10%;
     padding-top: 1%;
     vertical-align: middle;
+    will-change: filter;
+    transition: filter 300ms;
 }
+.logo:hover {
+    filter: drop-shadow(0 0 2em #00ffdd);
+  }
 
 .login-button {
     display: inline-block;
@@ -34,7 +51,8 @@ img{
     top: 25px; /* Adjust the top position as needed */
     right: -55px; /* Adjust the right position as needed */
     transform: translate(-50%, 0);
-    z-index: 999; /* Ensure it's above other content */
+    z-index: 999; 
+
 }
 
 .logout-button:hover{
@@ -72,6 +90,11 @@ img{
     margin-left: 45%;
     margin-top: 1%;
     overflow: hidden;
+    will-change: filter;
+    transition: filter 300ms;
+}
+.magic:hover{
+    filter: drop-shadow(0 0 2em #56fbe5);
 }
 .logout-button {
     display: inline-block;

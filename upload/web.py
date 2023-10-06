@@ -94,7 +94,7 @@ def split_video(input_file, output_dir, max_duration=181):
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'dropbox_token' not in session:
-        return redirect('/login')
+        return render_template("unauthorize.html")
     dbx = get_dropbox_client()
     #deleting existing files in db
     db_folder_path = '/uploads/'
@@ -139,6 +139,7 @@ def upload_file():
 def login():
     return dropbox_oauth.authorize(callback=url_for('authorized', _external=True))
 
+
 @app.route('/logout')
 def logout():
     session.pop('dropbox_token', None)
@@ -161,16 +162,16 @@ def get_dropbox_oauth_token():
 
 @app.route('/list_files')
 def list_files():
-    if 'dropbox_token' not in session:
-        return redirect('/login')
-    dbx = get_dropbox_client()
-
     try:
+        dbx = get_dropbox_client()
         files_list = dbx.files_list_folder('/uploads')
         file_names = [entry.name for entry in files_list.entries if isinstance(entry, dropbox.files.FileMetadata)]
         return render_template('file_list.html', file_names=file_names)
     except dropbox.exceptions.ApiError as e:
-        return f"An error occurred: {e}"
+        if e.error.is_expired_access_token():
+            # The access token has expired, redirect the user to the reauthorization route
+            return redirect("url_for(https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=hre5iem8s3h050b&redirect_uri=http%3A%2F%2F127.0.0.1%3A5000%2Flogin%2Fauthorized&scope=files.content.write+files.content.read")
+
 
 def get_db_connection():
     connection = sqlite3.connect('feedback.db')  # Replace 'feedback.db' with your SQLite database file path
@@ -194,11 +195,17 @@ def submit_feedback():
         feedback_message = request.form['feedback']
         insert_feedback(feedback_message)
         return render_template('thank_you.html') 
+    
+@app.route('/feature_options')
+def select_features():
+    if 'dropbox_token' not in session:
+        return render_template("unauthorize.html")
+    return render_template('choose_features.html')
 
-@app.route('/download_files')
+@app.route('/download_files', methods=['GET','POST'])
 def download_files():
     if 'dropbox_token' not in session:
-        return redirect('/login')
+        return render_template("unauthorize.html")
 
     dbx = get_dropbox_client()
     db_folder_path = '/uploads/' 
@@ -212,12 +219,33 @@ def download_files():
                 _, file_name = os.path.split(file_path)
                 local_file_path = os.path.join(local_folder_path, file_name)
                 dbx.files_download_to_file(local_file_path, file_path)
-        run = r'C:\Users\seren\OneDrive\Documents\Business\final\run_all.py'
-        # Start the subprocess in the background
-        subprocess_process = subprocess.Popen(["python", run])
+        run_with_kw = r"C:\Users\seren\OneDrive\Documents\Business\final\run_with_kw.py"
+        run_default = r'C:\Users\seren\OneDrive\Documents\Business\final\run_default.py' #OK
+        run_with_img = r'C:\Users\seren\OneDrive\Documents\Business\final\run_all.py' #OK
+        run_everything = r"C:\Users\seren\OneDrive\Documents\Business\final\run_everything.py"
+
+        if len(selected_checkboxes) == 0:
+            subprocess_process = subprocess.Popen(["python", run_default])
+        elif len(selected_checkboxes) == 1:
+            if 'Img Overlay' in selected_checkboxes:
+                subprocess_process = subprocess.Popen(["python", run_with_img])
+            else:
+                subprocess_process = subprocess.Popen(["python", run_with_kw])
+        elif len(selected_checkboxes) == 2:
+             subprocess_process = subprocess.Popen(["python", run_everything])
+
+        #subprocess_process = subprocess.Popen(["python", run_all])
         return render_template('wait.html')
     except Exception as e:
         return str(e)
+
+@app.route('/join_us', methods=['POST'])
+def join():
+    if request.method == 'POST':
+        global selected_checkboxes
+        selected_checkboxes = request.form.getlist('checkbox')
+        print(selected_checkboxes)
+    return render_template('join_us.html')
 
 @app.route('/check_status')
 def check_status():
@@ -266,8 +294,8 @@ def download_final():
     )
 
     time.sleep(60)
-    clear = r"C:\Users\seren\OneDrive\Documents\Business\upload\clear_history.py"
-    subprocess.run(["python", clear])
+    # clear = r"C:\Users\seren\OneDrive\Documents\Business\upload\clear_history.py"
+    # subprocess.run(["python", clear])
 
             
     return response

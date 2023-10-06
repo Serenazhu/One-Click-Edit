@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>One-Click Edit</title>
+  </head>
+  <body>
+    <h1>Select how you want us to edit your video</h1>
+    <div class="options">
+      <label for="default_feature1"
+        >Concatenate video segments
+        <input type="checkbox" id="default_feature1" checked disabled
+      /></label>
+
+      <label for="default_feature2"
+        >Trim Pauses
+        <input type="checkbox" id="default_feature2" checked disabled
+      /></label>
+
+      <form method="POST" action="/join_us">
+        <label for="feature1"
+          >Images Overlay
+          <input
+            type="checkbox"
+            id="feature1"
+            name="checkbox"
+            value="Img Overlay"
+          />
+        </label>
+        <br />
+        <label for="feature2"
+          >Keyword pop up
+          <input
+            type="checkbox"
+            id="feature2"
+            name="checkbox"
+            value="Keyword pop up"
+        /></label>
+        <button class="submit_option" type="submit">Submit</button>
+      </form>
+      <h3>Comming Soon!</h3>
+      <div>
+        <img
+          class="logo"
+          src="{{ url_for('static', filename='logo_f.png') }}"
+          alt="one-click edit logo"
+        />
+      </div>
+
+      <label for="feature3"
+        >BGM through out the entire video<input
+          type="checkbox"
+          id="feature3"
+          disabled
+      /></label>
+
+      <label for="feature4"
+        >BGM only when no talking<input type="checkbox" id="feature4" disabled
+      /></label>
+
+      <label for="feature5"
+        >Import an Intro<input type="checkbox" id="feature5" disabled
+      /></label>
+
+      <label for="feature6"
+        >Import an outro<input type="checkbox" id="feature6" disabled
+      /></label>
+
+      <label for="feature7"
+        >Speed up when no talking<input type="checkbox" id="feature7" disabled
+      /></label>
+
+      <label for="feature8"
+        >Generate a Thumbnail
+        <input type="checkbox" id="feature8" disabled />
+      </label>
+    </div>
+
+    <div class="mes">
+      <h2>----- Additional editing options are on the way -----</h2>
+    </div>
+
+    <div class="feedback-container">
+      <h5>What do you wish we have here?</h5>
+      <form id="feedback-form" action="/submit_feedback" method="post">
+        <textarea
+          id="feedback"
+          name="feedback"
+          rows="10"
+          placeholder="Please include your email address"
+          required
+        ></textarea>
+        <button class="feed" type="submit">Submit Feedback</button>
+      </form>
+    </div>
+  </body>
+  <style>
+    body {
+      font-family: monospace;
+      margin-left: 1.5%;
+    }
+    h1 {
+      padding-bottom: 1.5%;
+      text-decoration: underline;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      font-size: 130%;
+    }
+    .options input[type="checkbox"] {
+      margin-bottom: 1.5%;
+      color: rgb(164, 226, 255);
+    }
+
+    .mes {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .submit_option {
+      position: absolute;
+      font-size: 100%;
+      background-color: rgb(151, 234, 232);
+      border: none;
+      border-radius: 12%;
+      padding: 1.2% 2%;
+      cursor: pointer;
+      text-decoration: none;
+      color: #000000;
+      top: 65%;
+      right: 90%;
+    }
+    .submit_option:hover {
+      background-color: rgb(100, 191, 189);
+    }
+    .logo {
+      position: absolute;
+      left: 45%;
+      width: auto;
+      height: 20%;
+    }
+    .feedback-container {
+      max-width: 200px;
+      margin: 0;
+      padding: 20px;
+      padding-bottom: 100px;
+      background-color: #548896bc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-left: 70%;
+      position: absolute;
+      top: 20%;
+      right: 20px;
+    }
+
+    h5 {
+      font-size: 20px;
+    }
+
+    textarea {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .feed {
+      background-color: #000000;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #0e0e0e;
+    }
+  </style>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>One-Click Edit</title>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        class="logo"
+        src="{{ url_for('static', filename='logo_f.png') }}"
+        alt="one-click edit logo"
+      />
+      <h1>Join the Development Process!</h1>
+    </div>
+    <div class="sub">
+      <h2>
+        Get Exclusive Early Access by being a part of our Testers' Community!
+      </h2>
+    </div>
+    <div class="link">
+      <a href="https://discord.gg/359kkP6T">Join Discord Server</a>
+    </div>
+    <div class="and"><h5>--------- and ---------</h5></div>
+
+    <div class="start">
+      <a class="done" href="/download_files">Start Running</a>
+    </div>
+  </body>
+  <style>
+    body {
+      font-family: monospace;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+    }
+    .logo {
+      position: absolute;
+      left: 45%;
+      width: auto;
+      height: 20%;
+      margin-top: 3%;
+    }
+    h1 {
+      margin-top: 15%;
+      font-size: 250%;
+    }
+    .sub {
+      display: flex;
+      justify-content: center;
+    }
+    h2 {
+      font-weight: lighter;
+    }
+    .link {
+      display: flex;
+      justify-content: center;
+    }
+    a {
+      font-weight: lighter;
+      text-decoration: none;
+      padding: 1%;
+      border-radius: 10%;
+      color: black;
+      background-color: rgb(215, 250, 249);
+      font-size: 130%;
+      margin-top: 4%;
+    }
+    .and {
+      display: flex;
+      justify-content: center;
+    }
+    h5 {
+      font-size: 170%;
+    }
+    .start {
+      display: flex;
+      justify-content: center;
+    }
+    .done {
+      background-color: rgb(158, 234, 231);
+    }
+  </style>
+</html>
