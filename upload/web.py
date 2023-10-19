@@ -1,7 +1,6 @@
-from flask import Flask, render_template, redirect, session, request, url_for
+from flask import Flask, render_template, redirect, session, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_oauthlib.client import OAuth
-import dropbox
 import os
 import requests
 import sqlite3
@@ -17,26 +16,15 @@ import io
 app = Flask(__name__)
 app.secret_key = "2006"
 
-# Configure OAuth
-oauth = OAuth(app)
-dropbox_oauth = oauth.remote_app(
-    'dropbox',
-    consumer_key='hre5iem8s3h050b',
-    consumer_secret='9uqb4eumdz04e8y',
-    base_url='https://api.dropboxapi.com/2/',
-    request_token_url=None,
-    access_token_method='POST',
-    access_token_url='https://api.dropboxapi.com/oauth2/token',
-    authorize_url='https://www.dropbox.com/oauth2/authorize',
-    request_token_params={'scope': 'files.content.write files.content.read'},
-)
-
-def get_dropbox_client():
-    return dropbox.Dropbox(session['dropbox_token'][0])
-
 @app.route('/')
 def index():
+    return render_template('title.html')
+
+@app.route('/main')
+def main():
+
     return render_template('index.html')
+
 
 def get_video_duration(uploaded_file):
     try:
@@ -56,125 +44,153 @@ from moviepy.video.VideoClip import VideoClip
 import os
 import subprocess
 
-def split_video(input_file, output_dir, max_duration=181):
-    try:
-        # Create the output directory if it doesn't exist
-        os.makedirs(output_dir, exist_ok=True)
+import subprocess
 
-        # Get the video duration using FFmpeg
-        duration_command = ['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=duration', '-of', 'default=noprint_wrappers=1:nokey=1', input_file]
-        video_duration = float(subprocess.check_output(duration_command, universal_newlines=True))
+# def split_video(input_file, output_directory, segment_duration=120):
+#     try:
+#         command = [
+#             "ffmpeg",
+#             "-i", input_file,
+#             "-c:v", "copy",
+#             # "-f", "segment",
+#             # "-segment_time", str(segment_duration),
+#             # "-reset_timestamps", "1",
+#             # "-map", "0",
+#             # f"{output_directory}/segment_%03d.mp4"
+#         ]
 
-        num_splits = int(video_duration / max_duration) + 1
-        split_videos = []
+    #     subprocess.run(command, check=True)
+    #     print("Video splitting completed successfully.")
 
-        for i in range(num_splits):
-            start_time = i * max_duration
-            end_time = (i + 1) * max_duration if i < num_splits - 1 else video_duration
-            split_file = os.path.join(output_dir, f"split_{i + 1}.mp4")
-
-            # Use FFmpeg to trim the video segment
-            trim_command = ['ffmpeg', '-ss', str(start_time), '-i', input_file, '-t', str(end_time - start_time), '-c:v', 'libx264', '-c:a', 'aac', split_file]
-            subprocess.run(trim_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-            split_videos.append(split_file)
-
-        return split_videos
-
-    except Exception as e:
-        print("Error splitting video:", str(e))
-        return []
+    # except subprocess.CalledProcessError as e:
+    #     print(f"An error occurred: {e}")
 
 
 
+# def get_all_files_in_directory(root_dir):
+#         all_files = []
+#         for foldername, subfolders, filenames in os.walk(root_dir):
+#             for filename in filenames:
+#                 file_path = os.path.join(foldername, filename)
+#                 all_files.append(file_path)
+#         return all_files
 
+# def upload_file(file_path):
+#     dbx = get_dropbox_client()
 
+#     db_folder_path = '/uploads/'
+#     # Extract the file name from the full path
+#     file_name = os.path.basename(file_path)
 
-
-@app.route('/upload', methods=['POST'])
+ 
+    # dropbox_file_path = os.path.join(db_folder_path, file_name)
+    
+    # with open(file_path, 'rb') as f:
+    #     dbx.files_upload(f.read(), dropbox_file_path)
+# p=None
+# all_local_files = []
+@app.route('/upload', methods=['GET','POST'])
 def upload_file():
-    if 'dropbox_token' not in session:
-        return render_template("unauthorize.html")
-    dbx = get_dropbox_client()
-    #deleting existing files in db
-    db_folder_path = '/uploads/'
+    # clear = r"C:\Users\seren\OneDrive\Documents\Business\upload\clear_history.py"
+    # subprocess.run(["python", clear])
 
-    try:
-        result = dbx.files_list_folder(db_folder_path)
-        for entry in result.entries:
-            dbx.files_delete_v2(entry.path_display)
-    except dropbox.exceptions.ApiError as e:
-        if isinstance(e.user_message_text, dict) and 'path' in e.user_message_text:
-            print(f"Error: {e.user_message_text['path']}")
-        else:
-            print(f"General API error: {e}") 
-    clear = r"C:\Users\seren\OneDrive\Documents\Business\upload\clear_history.py"
-    subprocess.run(["python", clear])
+    #check duration
     all_uploaded_files = request.files.getlist('file')
     for uploaded_file in all_uploaded_files:
-        if uploaded_file and uploaded_file.filename.endswith('.mp4'):
-            video_duration = get_video_duration(uploaded_file)
-            print(video_duration)
-        if video_duration > 181:
-            p = 'C:/Users/seren/OneDrive/Documents/Business/temp/' + uploaded_file.filename
-            # Split the video if it's longer than 3 minutes
-            split_videos = split_video(p, 'C:/Users/seren/OneDrive/Documents/Business/temp')
-            os.remove(p)
-    db_folder_path = '/uploads/'
+        video_duration = get_video_duration(uploaded_file)
+        print(video_duration)
+        
+    #     #Split long videos
+    #     if video_duration > 120:
+    #         p = 'C:/Users/seren/OneDrive/Documents/Business/temp/' + uploaded_file.filename
+    #         # Split the video if it's longer than 3 minutes
+    #         split_video(p, 'C:/Users/seren/OneDrive/Documents/Business/temp')
 
-    local = r"C:\Users\seren\OneDrive\Documents\Business\temp"
-    all_local_files = os.listdir(local) #listdir gives filenames
+    #         root_directory = r"C:\Users\seren\OneDrive\Documents\Business\temp"
+    #     # Get a list of all files in the directory and its subdirectories
+            # for root, direct, files in os.walk(root_directory):
+            #     for file in files:
+            #         file_path = os.path.join(root, file)
+            #         all_local_files.append(file_path)
+            # print(all_local_files)
+            #all_local_files.remove(p)
+    # Use concurrent.futures.ThreadPoolExecutor
+        #     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            
+        #         for file_path in all_local_files:
+        #             executor.submit(upload_file, file_path)
+        # else: 
+        #     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        #         for file_path in all_local_files:
+        #             executor.submit(upload_file, file_path)
+
+    return render_template('index.html')
+
+
+
+@app.route('/join')
+def authoPage():
+    return render_template('autho.html')
+import json
+@app.route('/Authentication', methods=['GET','POST'])
+def autho():
+    response = {}
+    response2 = {}
+
     
-    def upload_file(file_name):
-        local_each_file = os.path.join(local, file_name)
-        dropbox_file_path = os.path.join(db_folder_path, file_name)
-        with open(local_each_file, 'rb') as f:
-            dbx.files_upload(f.read(), dropbox_file_path)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        executor.map(upload_file, all_local_files)
 
-    return redirect(url_for('index'))
+    if request.method == 'POST': #sending data to a server
+        unique_username = request.form.get("unique-username1")
+        email = request.form.get("email1")
+        username = request.form.get("username1")
+        print("unique_username:", unique_username)
+        print("email:", email)
+        print("username:", username)
 
-@app.route('/login')
-def login():
-    return dropbox_oauth.authorize(callback=url_for('authorized', _external=True))
+        if username is None:
+            try:
+                user_folder = "C:/Users/seren/OneDrive/Documents/Business/Users/" + unique_username
+                os.makedirs(user_folder) 
+                insert_email(email)
+                response['status'] = 'user_created'
+                return json.dumps(response) #serializes dictionaly into a JSON formatted string
+            except FileExistsError as e:
+                response['status'] = 'username_exists'
+                return json.dumps(response) #convert a Python dictionary into JSON formatted string
+        
+        if unique_username is None and email is None:
+            print("username: "+ username)
+            user_folder = "C:/Users/seren/OneDrive/Documents/Business/Users/" + username
+            if os.path.exists(user_folder):
+                response2['status'] = 'user_does_exist'
+            
+            else:
+                response2['status'] = 'user_does_not_exist'
+                print(response2)
+        
 
+    return json.dumps(response2)
+        
 
-@app.route('/logout')
-def logout():
-    session.pop('dropbox_token', None)
-    return redirect(url_for('index'))
-
-@app.route('/login/authorized')
-def authorized():
-    response = dropbox_oauth.authorized_response()
-    if response is None or response.get('access_token') is None:
-        return 'Access denied: reason={} error={}'.format(
-            request.args['error_reason'],
-            request.args['error_description']
-        )
-    session['dropbox_token'] = (response['access_token'], '')
-    return redirect(url_for('index'))
-
-@dropbox_oauth.tokengetter
-def get_dropbox_oauth_token():
-    return session.get('dropbox_token')
 
 @app.route('/list_files')
 def list_files():
-    try:
-        dbx = get_dropbox_client()
-        files_list = dbx.files_list_folder('/uploads')
-        file_names = [entry.name for entry in files_list.entries if isinstance(entry, dropbox.files.FileMetadata)]
-        return render_template('file_list.html', file_names=file_names)
-    except dropbox.exceptions.ApiError as e:
-        if e.error.is_expired_access_token():
-            # The access token has expired, redirect the user to the reauthorization route
-            return redirect("url_for(https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=hre5iem8s3h050b&redirect_uri=http%3A%2F%2F127.0.0.1%3A5000%2Flogin%2Fauthorized&scope=files.content.write+files.content.read")
+    folder_path = r"C:\Users\seren\OneDrive\Documents\Business\temp"
+    file_names = []
+# Create a Path object for the folder
+    if os.path.exists(folder_path) and os.path.isdir(folder_path):
+    # List all files in the folder
+        for file_name in os.listdir(folder_path):
+            # Check if the item is a file
+            file_path = os.path.join(folder_path, file_name)
+            if os.path.isfile(file_path):
+                file_names.append(file_name)
+    print(file_names)
+    return render_template('file_list.html', file_names=file_names)
 
 
 def get_db_connection():
-    connection = sqlite3.connect('feedback.db')  # Replace 'feedback.db' with your SQLite database file path
+    connection = sqlite3.connect('feedback.db')  
     connection.row_factory = sqlite3.Row
     return connection
 
@@ -189,6 +205,12 @@ def insert_feedback(message):
     finally:
         connection.close()
 
+def insert_email(email):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO users_email (email) VALUES(?)', (email,))
+    connection.commit()
+
 @app.route('/submit_feedback', methods=['POST'])
 def submit_feedback():
     if request.method == 'POST':
@@ -198,46 +220,32 @@ def submit_feedback():
     
 @app.route('/feature_options')
 def select_features():
-    if 'dropbox_token' not in session:
-        return render_template("unauthorize.html")
     return render_template('choose_features.html')
 
 @app.route('/download_files', methods=['GET','POST'])
 def download_files():
-    if 'dropbox_token' not in session:
-        return render_template("unauthorize.html")
 
-    dbx = get_dropbox_client()
     db_folder_path = '/uploads/' 
     local_folder_path = 'C:/Users/seren/OneDrive/Documents/Business/raw/' 
 
-    try:
-        files_list = dbx.files_list_folder(db_folder_path)
-        for entry in files_list.entries:
-            if isinstance(entry, dropbox.files.FileMetadata):
-                file_path = entry.path_display
-                _, file_name = os.path.split(file_path)
-                local_file_path = os.path.join(local_folder_path, file_name)
-                dbx.files_download_to_file(local_file_path, file_path)
-        run_with_kw = r"C:\Users\seren\OneDrive\Documents\Business\final\run_with_kw.py"
-        run_default = r'C:\Users\seren\OneDrive\Documents\Business\final\run_default.py' #OK
-        run_with_img = r'C:\Users\seren\OneDrive\Documents\Business\final\run_all.py' #OK
-        run_everything = r"C:\Users\seren\OneDrive\Documents\Business\final\run_everything.py"
+    run_with_kw = r"C:\Users\seren\OneDrive\Documents\Business\final\run_with_kw.py"
+    run_default = r'C:\Users\seren\OneDrive\Documents\Business\final\run_default.py' #OK
+    run_with_img = r'C:\Users\seren\OneDrive\Documents\Business\final\run_all.py' #OK
+    run_everything = r"C:\Users\seren\OneDrive\Documents\Business\final\run_everything.py"
 
-        if len(selected_checkboxes) == 0:
-            subprocess_process = subprocess.Popen(["python", run_default])
-        elif len(selected_checkboxes) == 1:
-            if 'Img Overlay' in selected_checkboxes:
-                subprocess_process = subprocess.Popen(["python", run_with_img])
-            else:
-                subprocess_process = subprocess.Popen(["python", run_with_kw])
-        elif len(selected_checkboxes) == 2:
-             subprocess_process = subprocess.Popen(["python", run_everything])
+    if len(selected_checkboxes) == 0:
+        subprocess_process = subprocess.Popen(["python", run_default])
+    elif len(selected_checkboxes) == 1:
+        if 'Img Overlay' in selected_checkboxes:
+            subprocess_process = subprocess.Popen(["python", run_with_img])
+        else:
+            subprocess_process = subprocess.Popen(["python", run_with_kw])
+    elif len(selected_checkboxes) == 2:
+            subprocess_process = subprocess.Popen(["python", run_everything])
 
         #subprocess_process = subprocess.Popen(["python", run_all])
-        return render_template('wait.html')
-    except Exception as e:
-        return str(e)
+    return render_template('wait.html')
+
 
 @app.route('/join_us', methods=['POST'])
 def join():
@@ -263,39 +271,28 @@ def display_wait_template():
 import time
 @app.route('/download_final')
 def download_final():
-    #deleting existing files in db
-    db_folder_path = '/uploads/'
-    dbx = get_dropbox_client()
 
-    try:
-        result = dbx.files_list_folder(db_folder_path)
-        for entry in result.entries:
-            dbx.files_delete_v2(entry.path_display)
-    except dropbox.exceptions.ApiError as e:
-        if isinstance(e.user_message_text, dict) and 'path' in e.user_message_text:
-            print(f"Error: {e.user_message_text['path']}")
-        else:
-            print(f"General API error: {e}")
-    #upload FINAL to dropbox
     FINAL_path = r"C:\Users\seren\OneDrive\Documents\Business\FINAL.mp4"
     file_name = "FINAL.mp4"
-    dropbox_FINAL_path = os.path.join(db_folder_path, file_name)
-    with open(FINAL_path, 'rb') as f:
-        dbx.files_upload(f.read(), dropbox_FINAL_path)
 
-    metadata, res = dbx.files_download(path=dropbox_FINAL_path)
+  
+    with open(FINAL_path, 'rb') as file:
+        video_binary_data = file.read()
+
     name = 'edited_video.mp4'
-        # Set the appropriate content type for the response
+    edited_video_stream = io.BytesIO(video_binary_data)
+
     response = send_file(
-        io.BytesIO(res.content),
+        edited_video_stream,
         as_attachment=True,
-        download_name=os.path.basename(name),
+        download_name='edited_video.mp4',
         mimetype='application/octet-stream'
     )
+      
+    
 
-    time.sleep(60)
-    # clear = r"C:\Users\seren\OneDrive\Documents\Business\upload\clear_history.py"
-    # subprocess.run(["python", clear])
+    time.sleep(30)
+
 
             
     return response

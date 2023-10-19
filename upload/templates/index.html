@@ -17,21 +17,18 @@
     />
 
     <h1 class="container">One-Click Edit</h1>
-    {% if session['dropbox_token'] %}
     <form action="/upload" method="post" enctype="multipart/form-data">
       <div class="upload-container">
         <h5 class="requirments">
           Currently, we work best with videos containing spoken audio.
         </h5>
         <input type="file" name="file" accept=".mp4" multiple required />
-        <button class="upload-button" type="submit">
-          Upload File to Dropbox
-        </button>
+        <form action="/upload-files">
+          <button class="list-files" type="submit">
+            Upload File to Dropbox
+          </button>
+        </form>
       </div>
-    </form>
-    <form action="/list_files">
-      <button class="list-files" type="submit">Check uploaded Files</button>
-    </form>
 
     <a href="/logout" class="logout-button">Logout</a>
     <div class="feedback-container">
@@ -48,12 +45,6 @@
       </form>
     </div>
 
-    {% else %}
-    <a href="/login" class="login-button">SignUp with Dropbox</a>
-    <h2 class="main">Transform your video with a <span>single</span> click</h2>
-    <h2 class="submain">--- AI-powered video editing made effortless ---</h2>
-    <a href="/login" class="magic">Start the Magic</a>
-    {% endif %}
     <div class="reference-container">
       <h5 class="reference">Want to know more about our product?</h5>
       <a

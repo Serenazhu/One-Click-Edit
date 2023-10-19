@@ -1,5 +1,5 @@
 import subprocess
-#Run default options + imges overlay
+#Run default options + imges overlay + keywords
 scripts_to_run = [r"C:\Users\seren\OneDrive\Documents\Business\Re-sequence\re-sequence.py",
                   r"C:\Users\seren\OneDrive\Documents\Business\Re-sequence\test.py", 
                   r"C:\Users\seren\OneDrive\Documents\Business\raw\audio\cmd.py",

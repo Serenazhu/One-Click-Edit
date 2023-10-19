@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>One-Click Edit</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='autho.css') }}"
+    />
+  </head>
+  <body>
+    <div class="left-container">
+      <h1>One-Click Edit</h1>
+      <h2>Makes Video Editing 10x Easier</h2>
+      <button class="log-in-option">Log In</button>
+      <button class="sign-up-option">Sign Up</button>
+      <div class="inputboxes">
+        <form id="username-form" method="post" action="/Authentication">
+          <textarea
+            class="username"
+            id="usernameid"
+            name="username1"
+            rows="2"
+            placeholder=" username"
+            required
+          ></textarea>
+        </form>
+        <button type="submit" id="login" class="login">Log In</button>
+      </div>
+      <div class="inputboxes">
+        <form id="unique-username-form" method="post" action="/Authentication">
+          <textarea
+            class="unique-username"
+            id="unique-usernameid"
+            name="unique-username1"
+            rows="2"
+            placeholder=" unique username"
+            required
+          ></textarea>
+        </form>
+      </div>
+      <form id="email-form" method="POST" action="/Authentication">
+        <textarea
+          class="email"
+          id="emailid"
+          name="email1"
+          rows="2"
+          placeholder=" email"
+          required
+        ></textarea>
+      </form>
+      <button type="submit" id="signin" class="signin">Sign Up</button>
+      <h4 id="warning">This account already exists.</h4>
+      <h4 id="warning2">Unable to find this account</h4>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

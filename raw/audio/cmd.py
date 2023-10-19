@@ -1,6 +1,5 @@
 import os
 import subprocess
-script_directory = os.path.dirname(os.path.abspath(__file__))
 folder_path = r'C:\Users\seren\OneDrive\Documents\Business\raw\audio'
 output_folder_path = r'C:\Users\seren\OneDrive\Documents\Business\raw\transcript'
 file_list = os.listdir(folder_path)

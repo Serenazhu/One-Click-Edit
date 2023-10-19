@@ -11,10 +11,8 @@ for filename in os.listdir(folder_path):
         video_list.append(f'C:/Users/seren/OneDrive/Documents/Business/raw/{filename}')
 
 vl = []
-count = 0
+
 for i in video_list:
-    count+=1 
-    n=str(count)
     n = VideoFileClip(rf'{i}')
     vl.append(n)
 

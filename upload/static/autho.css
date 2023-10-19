@@ -1,0 +1,216 @@
+body{
+    font-family: monospace;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.left-container{
+    margin: 0;
+    padding: 0;
+    width: 50%;
+    height: 100vh;
+    background-color: black;
+    float: left;
+    position: relative;
+    
+}
+
+
+
+h1{
+    color: white;
+    font-size: 2.6vw;
+    text-shadow: 1px 1px 3px rgb(127, 221, 236);
+    position: absolute;
+    top: 25%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the element */
+
+}
+
+h2{
+    background: linear-gradient(to right, #48746e, #40aaac,rgb(146, 202, 196)); /* Define your gradient */
+    -webkit-background-clip: text; /* WebKit browsers */
+    background-clip: text; /* Standard property */
+    color: transparent;
+    font-size: 1.45vw;
+    position: absolute;
+    top: 33%;
+    left: 52%;
+    transform:translate(-50%, -50%) ;
+}
+
+.log-in-option{
+    position: absolute;
+    top:43%;
+    right: 53%;
+    display: inline-block;
+    padding: 13px 35px;
+    border: 1px solid #000;
+    border-radius: 30px;
+    color: #000;
+    text-decoration: none;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    background-color: #4b8f81;
+    will-change: filter;
+    transition: filter 200ms;
+    font-weight: bold;
+    text-shadow: 1px 4px 4px #000;
+}
+.sign-up-option:hover{
+    filter: drop-shadow(0 0 2em #f9a9ff);
+    cursor: pointer;
+}
+
+.sign-up-option{
+    display: inline-block;
+    padding: 13px 30px;
+    border: 1px solid #000;
+    border-radius: 30px;
+    color: #000;
+    text-decoration: none;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    background:linear-gradient(120deg, #ca7ba4, #4b8f81 );
+    position: absolute;
+    top:43%;
+    right:26%;
+    will-change: filter;
+    transition: filter 200ms;
+    font-weight: bold;
+    text-shadow: 1px 4px 4px #000;
+
+}
+.log-in-option:hover{
+    filter: drop-shadow(0 0 2em #7fcaf8);
+    cursor: pointer;
+}
+
+
+.username{
+    border-radius: 5px;
+    position: absolute;
+    top:58%;
+    right: 28%;
+    width: 40%;
+    resize: none;
+    display: none;
+}
+.unique-username{
+    border-radius: 5px;
+    position: absolute;
+    top:54%;
+    right: 28%;
+    width: 40%;
+    resize: none;
+    display: none;
+}
+
+.email{
+    border-radius: 5px;
+    position: absolute;
+    top:62%;
+    right: 28%;
+    width: 40%;
+    resize: none;
+    display: none;
+}
+
+.login{
+    position: absolute;
+    text-decoration: none;
+    padding: 1.3% 16.5%;
+    border-radius: 5px;
+    background-color: #4b8f81;
+    top:70%;
+    right: 27.5%;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 4px 4px #000;
+    font-size: large;
+    will-change: filter;
+    transition: filter 200ms;
+    display: none;
+}
+
+.login:hover{
+    filter: drop-shadow(0 0 2em rgb(174, 217, 221));
+    cursor: pointer;
+}
+.signin{
+    position: absolute;
+    text-decoration: none;
+    padding: 1.3% 16%;
+    border-radius: 5px;
+    background:linear-gradient(120deg, #ca7ba4, #4b8f81 );
+    top:70%;
+    right: 27.5%;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 4px 4px #000;
+    font-size: large;
+    will-change: filter;
+    transition: filter 200ms;
+}
+
+.signup:hover{
+    filter: drop-shadow(0 0 2em #efacd7);
+    cursor: pointer;
+}
+
+.not-selected-login{
+    position: absolute;
+    top:43%;
+    right: 53%;
+    display: inline-block;
+    padding: 13px 35px;
+    border: 1px solid #000;
+    border-radius: 30px;
+    color: #000;
+    text-decoration: none;
+    font-size: 16px;
+    color: rgb(144, 150, 151);
+    background-color: #3b4442;
+    font-weight: bold;
+}
+.not-selected-signup{
+    display: inline-block;
+    padding: 13px 30px;
+    border: 1px solid #000;
+    border-radius: 30px;
+    color: #000;
+    text-decoration: none;
+    font-size: 16px;
+    color: rgb(144, 150, 151);
+    background-color: #3b4442;
+    position: absolute;
+    top:43%;
+    right:26%;
+    font-weight: bold;
+    text-shadow: 1px 4px 4px #000;
+    will-change: filter;
+    transition: filter 200ms;
+}
+
+.not-selected-signup:hover{
+    filter: drop-shadow(0 0 2em #efacd7);
+    cursor: pointer;
+}
+
+#warning{
+    color:red;
+    position: relative;
+    left: 50%;
+    top: 75%;
+    display: none;
+}
+
+#warning2{
+    color:red;
+    position: relative;
+    left: 50%;
+    top: 75%;
+    display: none;
+}
+
+

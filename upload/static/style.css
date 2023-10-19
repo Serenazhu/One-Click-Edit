@@ -1,10 +1,10 @@
 body{
     margin:0;
     padding: 0;
-    background: linear-gradient(-45deg, rgb(114, 175, 221),yellow,#ee7752, #f287b0, #23a6d5, #7beed3);
+    background: linear-gradient(-45deg, rgb(68, 99, 123), #164b5e, #126350);
     background-size: 1100% 1100%;
-    animation: gradient-animation 15s ease infinite;
-
+    animation: gradient-animation 10s ease infinite;
+    color: rgb(146, 202, 196);
     
     font-family: monospace;
     overflow: hidden;
@@ -65,10 +65,13 @@ body{
     text-align: center;
     margin-left: 15%; /* Adjust the left margin as needed */
     margin-right: 15%; 
+    color: #ffffff;
 
 }
 .main span{
-    text-decoration: underline;
+    color: #56fbe5;
+    text-shadow: 5px 5px 15px rgba(3, 3, 3, 0.917); 
+
 }
 
 .submain{
