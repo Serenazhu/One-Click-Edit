@@ -41,14 +41,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
 });
 
-//Handle form submission
+//Handle form submission for signin
 document.addEventListener('DOMContentLoaded', ()=>{
     const signinButton = document.getElementById("signin");
 
     const signinUsername = document.getElementById("unique-username-form");
     const signinEmail = document.getElementById("email-form");
 
-    //signin or login
+    //signin
     signinButton.addEventListener('click', () =>{
         const signinUsernameData = new FormData(signinUsername); // key:Form field names  values:actual info
         const signinEmailData = new FormData(signinEmail);
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 
-
+//Handle form submission for Login
 document.addEventListener('DOMContentLoaded', ()=>{
 
 const loginButton = document.getElementById("login");
