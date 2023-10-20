@@ -4,7 +4,7 @@ body{
     background: linear-gradient(-45deg, rgb(68, 99, 123), #164b5e, #126350);
     background-size: 1100% 1100%;
     animation: gradient-animation 10s ease infinite;
-    color: rgb(146, 202, 196);
+    color: rgb(0, 0, 0);
     
     font-family: monospace;
     overflow: hidden;
@@ -119,7 +119,7 @@ body{
     max-width: 300px;
     padding: 12% 12%;
     padding-bottom: 150px;
-    background-color: rgba(95, 255, 255, 0.249);
+    background-color: rgba(212, 231, 231, 0.45);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     top:19% ;
