@@ -1,7 +1,7 @@
 import openai
 import os
 
-openai.api_key = "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"
+openai.api_key = 
 
 # Open the file in read mode
 with open(r'C:\Users\seren\OneDrive\Documents\Business\picture\full_output_audio.txt', 'r') as file:
